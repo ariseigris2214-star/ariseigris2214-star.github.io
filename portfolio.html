@@ -3,7 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Name - Portfolio</title>
+    <title>Eco-Eye-Environmental Protection Platform</title>
+    <meta name="description" content="Report illegal mining activities in Ghana. Track environmental damage, view pollution data, and join the fight against Galamsey. Protect Ghana's environment for future generations.">
+    <meta name="author" content="Eco-Eye Team">
+    
+    <!-- Chart.js for data visualization -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
     <style>
         * {
             margin: 0;
@@ -11,553 +17,1590 @@
             box-sizing: border-box;
         }
 
-        body {
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            overflow-x: hidden;
-            scroll-behavior: smooth;
+        :root {
+            /* Environmental Color Palette */
+            --bg-primary: #0c1415;
+            --bg-secondary: #1a2827;
+            --text-primary: #f0f4f3;
+            --text-secondary: #b8c4c2;
+            --text-muted: #7a8a87;
+            
+            /* Environmental Colors */
+            --forest-green: #22c55e;
+            --forest-dark: #16a34a;
+            --earth-brown: #d97706;
+            --earth-dark: #c2410c;
+            --water-blue: #0ea5e9;
+            --water-dark: #0284c7;
+            --danger-red: #ef4444;
+            --danger-dark: #dc2626;
+            --warning-yellow: #f59e0b;
+            
+            /* Gradients */
+            --gradient-moving: linear-gradient(45deg, 
+                #0c1415 0%, 
+                #1a2827 25%, 
+                #2d1b0e 50%, 
+                #1e2d1a 75%, 
+                #0c1415 100%);
+            --gradient-forest: linear-gradient(135deg, #16a34a, #22c55e);
+            --gradient-earth: linear-gradient(135deg, #c2410c, #d97706);
+            --gradient-water: linear-gradient(135deg, #0284c7, #0ea5e9);
+            --gradient-danger: linear-gradient(135deg, #dc2626, #ef4444);
+            
+            /* Glass Effect */
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --glass-backdrop: blur(10px);
         }
 
-        /* Animated background particles */
-        .particles {
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--gradient-moving);
+            background-size: 400% 400%;
+            animation: gradientMove 15s ease infinite;
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Animations */
+        @keyframes gradientMove {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(-10px);
+                animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+            }
+            50% {
+                transform: translateY(0);
+                animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .bounce {
+            animation: bounce 2s infinite;
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        /* Glass morphism effect */
+        .glass {
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-backdrop);
+            border: 1px solid var(--glass-border);
+            border-radius: 15px;
+        }
+
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-backdrop);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        /* Header */
+        header {
             position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: -1;
-        }
-
-        .particle {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: rgba(255, 255, 255, 0.5);
-            border-radius: 50%;
-            animation: float 6s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(180deg); }
-        }
-
-        /* Navigation */
-        nav {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 50px;
-            padding: 15px 30px;
+            right: 0;
             z-index: 1000;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            padding: 15px 0;
+            transition: all 0.3s ease;
+        }
+
+        header.scrolled {
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-backdrop);
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-section {
+            display: flex;
+            items-center: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--gradient-forest);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 20px rgba(34, 197, 94, 0.3);
+        }
+
+        .logo-text h1 {
+            font-size: 24px;
+            font-weight: bold;
+            background: var(--gradient-forest);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .logo-text p {
+            font-size: 11px;
+            color: var(--text-muted);
         }
 
         nav ul {
             list-style: none;
             display: flex;
-            gap: 30px;
+            gap: 15px;
         }
 
-        nav a {
-            color: white;
-            text-decoration: none;
-            font-weight: 500;
-            transition: all 0.3s ease;
+        .nav-btn {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            color: var(--text-primary);
             padding: 8px 16px;
             border-radius: 25px;
-            position: relative;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
         }
 
-        nav a:hover {
+        .nav-btn:hover, .nav-btn.active {
+            background: var(--gradient-forest);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(34, 197, 94, 0.3);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+        }
+
+        .hero-bg img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.2;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, rgba(12,20,21,0.5) 0%, rgba(12,20,21,0.8) 100%);
+            z-index: -1;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            margin: 0 auto;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: bold;
+            margin-bottom: 24px;
+            line-height: 1.1;
+        }
+
+        .gradient-text {
+            background: linear-gradient(45deg, var(--forest-green), var(--earth-brown), var(--warning-yellow));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: clamp(1.1rem, 3vw, 1.5rem);
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            margin-bottom: 60px;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            min-width: 200px;
+            justify-content: center;
+        }
+
+        .btn-primary {
+            background: var(--gradient-forest);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(34, 197, 94, 0.4);
+        }
+
+        .btn-glass {
+            background: var(--glass-bg);
+            color: var(--text-primary);
+            border: 1px solid var(--glass-border);
+        }
+
+        .btn-glass:hover {
             background: rgba(255, 255, 255, 0.2);
             transform: translateY(-2px);
         }
 
-        /* Sections */
-        section {
-            min-height: 100vh;
-            padding: 100px 50px;
+        .btn-danger {
+            background: var(--gradient-danger);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(239, 68, 68, 0.4);
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .stat-card {
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            flex-direction: column;
-            position: relative;
+            margin: 0 auto 20px;
+            font-size: 24px;
         }
 
-        .container {
-            max-width: 1200px;
-            width: 100%;
-            text-align: center;
-        }
-
-        h1 {
-            font-size: 4rem;
-            margin-bottom: 20px;
-            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1);
-            background-size: 300% 300%;
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: gradientShift 3s ease-in-out infinite;
-        }
-
-        @keyframes gradientShift {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
-
-        h2 {
+        .stat-number {
             font-size: 2.5rem;
-            margin-bottom: 30px;
-            color: #fff;
-            text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+            font-weight: bold;
+            margin-bottom: 10px;
         }
 
-        p {
+        .stat-label {
+            color: var(--text-secondary);
+        }
+
+        /* Sections */
+        .section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-subtitle {
             font-size: 1.2rem;
-            line-height: 1.8;
-            margin-bottom: 30px;
-            opacity: 0.9;
+            color: var(--text-secondary);
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 60px;
         }
 
-        /* Glass cards */
+        /* Cards Grid */
+        .cards-grid {
+            display: grid;
+            gap: 30px;
+        }
+
+        .cards-grid-2 {
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+        }
+
+        .cards-grid-3 {
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        }
+
+        .cards-grid-4 {
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        }
+
         .card {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
             padding: 30px;
-            margin: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
         }
 
         .card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            transform: translateY(-5px);
         }
 
-        .card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-            transform: rotate(45deg);
-            transition: all 0.5s ease;
-            opacity: 0;
-        }
-
-        .card:hover::before {
-            animation: shimmer 0.5s ease-in-out;
-        }
-
-        @keyframes shimmer {
-            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); opacity: 0; }
-            50% { opacity: 1; }
-            100% { transform: translateX(100%) translateY(100%) rotate(45deg); opacity: 0; }
-        }
-
-        /* Grid layouts */
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin-top: 50px;
-        }
-
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 30px;
-            margin-top: 50px;
-        }
-
-        /* Project cards */
-        .project-card {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(15px);
-            border-radius: 20px;
-            padding: 30px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .project-card:hover {
-            transform: scale(1.05);
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
-        }
-
-        .project-card h3 {
-            font-size: 1.8rem;
+        .card-title {
+            font-size: 1.3rem;
+            font-weight: bold;
             margin-bottom: 15px;
-            color: #4ecdc4;
         }
 
-        /* Skills section */
-        .skills-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 20px;
-            margin-top: 40px;
+        .card-text {
+            color: var(--text-secondary);
+            line-height: 1.6;
         }
 
-        .skill-tag {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            padding: 15px 25px;
-            border-radius: 30px;
+        /* Impact Images */
+        .impact-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+
+        .severity-badge {
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 12px;
             font-weight: bold;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .skill-tag:hover {
-            transform: scale(1.1);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-        }
-
-        /* Floating animation for hero section */
-        .hero-content {
-            animation: heroFloat 4s ease-in-out infinite;
-        }
-
-        @keyframes heroFloat {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-        }
-
-        /* Glowing button */
-        .glow-btn {
-            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
-            border: none;
-            padding: 15px 30px;
-            border-radius: 50px;
             color: white;
-            font-size: 1.1rem;
-            font-weight: bold;
+        }
+
+        .severity-critical {
+            background: var(--gradient-danger);
+        }
+
+        .severity-severe {
+            background: var(--gradient-earth);
+        }
+
+        .severity-high {
+            background: var(--gradient-water);
+        }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .form-input,
+        .form-select,
+        .form-textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid rgba(255,255,255,0.2);
+            border-radius: 10px;
+            background: rgba(255,255,255,0.1);
+            color: var(--text-primary);
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--forest-green);
+            background: rgba(255,255,255,0.15);
+        }
+
+        .form-input::placeholder,
+        .form-textarea::placeholder {
+            color: var(--text-muted);
+        }
+
+        /* Charts Container */
+        .chart-container {
+            position: relative;
+            height: 400px;
+            margin-bottom: 30px;
+        }
+
+        .chart-small {
+            height: 300px;
+        }
+
+        /* Map Styles */
+        .map-container {
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 20px;
+            min-height: 500px;
+        }
+
+        .map-legend {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        /* Ghana Map SVG */
+        .ghana-map {
+            width: 100%;
+            max-height: 500px;
+        }
+
+        .region-marker {
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 0 20px rgba(255, 107, 107, 0.5);
-            margin-top: 20px;
         }
 
-        .glow-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 30px rgba(255, 107, 107, 0.8);
+        .region-marker:hover {
+            opacity: 1 !important;
+            transform: scale(1.1);
         }
 
-        /* Responsive design */
-        @media (max-width: 768px) {
-            h1 { font-size: 2.5rem; }
-            h2 { font-size: 2rem; }
-            section { padding: 80px 20px; }
-            nav ul { flex-direction: column; gap: 10px; }
-            nav { padding: 10px 20px; }
-        }
-
-        /* Custom scrollbar */
-        ::-webkit-scrollbar {
-            width: 10px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            border-radius: 5px;
-        }
-
-        /* QR Code styling */
-        .qr-container {
-            background: white;
+        /* Region Details */
+        .region-details {
             padding: 20px;
-            border-radius: 20px;
-            margin: 20px auto;
-            width: fit-content;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
         }
 
-        .qr-code {
-            width: 200px;
-            height: 200px;
-            background: #000;
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.8rem;
-            text-align: center;
-        }
-
-        /* GIF placeholder */
-        .gif-placeholder {
-            width: 200px;
+        .region-image {
+            width: 100%;
             height: 150px;
-            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1);
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        /* Reports */
+        .reports-container {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
+        .report-item {
+            padding: 20px;
+            margin-bottom: 15px;
             border-radius: 15px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            transition: all 0.3s ease;
+        }
+
+        .report-item:hover {
+            background: rgba(255,255,255,0.15);
+        }
+
+        .report-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .report-location {
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .report-date {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .report-type {
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 11px;
+            font-weight: 600;
             display: flex;
             align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            margin: 0 auto;
-            animation: gifPulse 2s ease-in-out infinite;
+            gap: 5px;
         }
 
-        @keyframes gifPulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
+        .status-verified {
+            background: rgba(34, 197, 94, 0.2);
+            color: var(--forest-green);
         }
-    </style>
-</head>
-<body>
-    <!-- Animated particles background -->
-    <div class="particles" id="particles"></div>
 
-    <!-- Navigation -->
-    <nav>
-        <ul>
-            <li><a href="#about">About</a></li>
-            <li><a href="#html-projects">HTML Projects</a></li>
-            <li><a href="#graphics">Graphics</a></li>
-            <li><a href="#python-projects">Python Projects</a></li>
-            <li><a href="#skills">Skills</a></li>
-            <li><a href="#acknowledgment">Acknowledgment</a></li>
-        </ul>
-    </nav>
+        .status-investigating {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--warning-yellow);
+        }
 
-    <!-- About Section -->
-    <section id="about">
-        <div class="container">
-            <div class="hero-content">
-                <h1>Your Name</h1>
-                <p>Welcome to my digital universe! I'm a passionate coder on an exciting journey of discovery and creation. Currently mastering the art of web development through HTML and CSS, while diving deep into the powerful world of Python programming.</p>
-                <p>Every line of code I write is a step towards building something amazing. From crafting beautiful websites to developing intelligent applications, I believe in the power of technology to transform ideas into reality.</p>
-                <button class="glow-btn">Explore My Journey</button>
-            </div>
-        </div>
-    </section>
+        .status-pending {
+            background: rgba(156, 163, 175, 0.2);
+            color: var(--text-muted);
+        }
 
-    <!-- HTML Projects Section -->
-    <section id="html-projects">
-        <div class="container">
-            <h2>HTML Projects Showcase</h2>
-            <p>Explore my creative web development projects, each representing a unique brand identity and design philosophy.</p>
-            <div class="projects-grid">
-                <div class="project-card">
-                    <h3>🌟 Tech Innovators Hub</h3>
-                    <p><strong>Brand Concept:</strong> A cutting-edge technology startup website featuring modern design principles, responsive layouts, and interactive elements. Showcases innovation in the tech industry with sleek animations and professional aesthetics.</p>
-                    <p><strong>Key Features:</strong> Gradient backgrounds, hover effects, mobile-responsive design, and modern typography.</p>
-                </div>
-                <div class="project-card">
-                    <h3>🎨 Creative Arts Studio</h3>
-                    <p><strong>Brand Concept:</strong> An artistic portfolio website for creative professionals. Features vibrant colors, gallery layouts, and artistic design elements that celebrate creativity and visual storytelling.</p>
-                    <p><strong>Key Features:</strong> Image galleries, artistic fonts, color-rich palette, and creative layouts.</p>
-                </div>
-                <div class="project-card">
-                    <h3>🍃 EcoLife Sustainable Living</h3>
-                    <p><strong>Brand Concept:</strong> An environmental awareness website promoting sustainable living. Uses earth tones, nature imagery, and clean design to convey eco-friendly values and environmental consciousness.</p>
-                    <p><strong>Key Features:</strong> Nature-inspired design, green color scheme, informative sections, and sustainability focus.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+        /* Success Message */
+        .success-message {
+            background: rgba(34, 197, 94, 0.2);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            color: var(--forest-green);
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+            display: none;
+        }
 
-    <!-- Graphics Section -->
-    <section id="graphics">
-        <div class="container">
-            <h2>Graphic Design Portfolio</h2>
-            <p>Showcasing my creative design skills through custom QR codes and dynamic visual elements.</p>
-            <div class="grid">
-                <div class="card">
-                    <h3>Custom QR Code Design</h3>
-                    <div class="qr-container">
-                        <div class="qr-code">
-                            █████████████████<br>
-                            █ ▄▄▄▄▄ █ ██ █ █<br>
-                            █ █   █ █▀▀█▀ █ █<br>
-                            █ █▄▄▄█ █ ▀▄█▄█ █<br>
-                            █▄▄▄▄▄▄▄█▄▀ ▀▄█▄█<br>
-                            █▀ ▄█▄▀▄ ▄ ▄█▀ █ █<br>
-                            █ ██▀█▄▄▀▀ ▀▄▄▄█ █<br>
-                            █▄██▄▄▄█▀██▄█▄███<br>
-                            █████████████████
-                        </div>
-                    </div>
-                    <p>A creatively designed QR code that combines functionality with aesthetic appeal, demonstrating my attention to both form and function in design.</p>
-                </div>
-                <div class="card">
-                    <h3>Animated GIF Creation</h3>
-                    <div class="gif-placeholder">
-                        🎬 ANIMATED GIF<br>
-                        Loading...
-                    </div>
-                    <p>Custom animated GIF showcasing motion graphics skills, featuring smooth transitions, creative storytelling, and engaging visual effects that bring static designs to life.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Python Projects Section -->
-    <section id="python-projects">
-        <div class="container">
-            <h2>Python Development Projects</h2>
-            <p>Discover my Python programming journey through interactive applications and games.</p>
-            <div class="grid">
-                <div class="card">
-                    <h3>🤖 Intelligent Chatbot</h3>
-                    <p>A sophisticated conversational AI built with Python that can engage in meaningful dialogues, answer questions, and provide helpful responses. Features natural language processing and context-aware conversations.</p>
-                    <p><strong>Technologies:</strong> Python, Natural Language Processing, Pattern Matching</p>
-                </div>
-                <div class="card">
-                    <h3>🔢 Advanced Calculator</h3>
-                    <p>A comprehensive calculator application that goes beyond basic arithmetic. Includes scientific functions, equation solving, and an intuitive user interface built with Python's GUI frameworks.</p>
-                    <p><strong>Features:</strong> Complex calculations, Memory functions, History tracking, Error handling</p>
-                </div>
-                <div class="card">
-                    <h3>🐍 Classic Snake Game</h3>
-                    <p>A modern take on the timeless Snake game, built entirely in Python. Features smooth gameplay, score tracking, and progressive difficulty levels. Demonstrates game development principles and event handling.</p>
-                    <p><strong>Game Features:</strong> Smooth controls, Score system, Level progression, Collision detection</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Skills Section -->
-    <section id="skills">
-        <div class="container">
-            <h2>Skills & Future Applications</h2>
-            <p>My current technical skills and their potential applications in real-world projects.</p>
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
             
-            <h3 style="margin-top: 40px; color: #4ecdc4;">Current Skills</h3>
-            <div class="skills-container">
-                <div class="skill-tag">HTML5</div>
-                <div class="skill-tag">CSS3</div>
-                <div class="skill-tag">Python</div>
-                <div class="skill-tag">Responsive Design</div>
-                <div class="skill-tag">JavaScript (Learning)</div>
-                <div class="skill-tag">Graphic Design</div>
-                <div class="skill-tag">Problem Solving</div>
-            </div>
-
-            <div style="margin-top: 60px;">
-                <h3 style="color: #ff6b6b;">Future Applications</h3>
-                <div class="grid">
-                    <div class="card">
-                        <h3>Web Development</h3>
-                        <p>Building responsive, modern websites for businesses and personal brands. Creating e-commerce platforms, portfolio sites, and web applications that provide exceptional user experiences.</p>
-                    </div>
-                    <div class="card">
-                        <h3>Python Applications</h3>
-                        <p>Developing data analysis tools, automation scripts, web scrapers, and machine learning applications. Creating desktop applications and backend services for various industries.</p>
-                    </div>
-                    <div class="card">
-                        <h3>Full-Stack Development</h3>
-                        <p>Combining frontend and backend skills to create complete web solutions. Building APIs, databases, and interactive web applications that solve real-world problems.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Acknowledgment Section -->
-    <section id="acknowledgment">
-        <div class="container">
-            <h2>Acknowledgment & Gratitude</h2>
-            <div class="card" style="max-width: 800px; margin: 0 auto;">
-                <h3 style="color: #4ecdc4; margin-bottom: 30px;">🇬🇭 Ghana Code Club</h3>
-                <p style="font-size: 1.3rem; line-height: 1.8;">
-                    I extend my heartfelt gratitude to <strong>Ghana Code Club</strong> for being the catalyst of my coding journey. This incredible organization has opened doors to a world of possibilities, providing me with the foundation, guidance, and inspiration to pursue my passion for programming.
-                </p>
-                <p style="font-size: 1.2rem; margin-top: 25px;">
-                    Through their comprehensive programs and supportive community, I've discovered not just the technical skills of coding, but also the confidence to dream big and build the future I envision. The mentorship, resources, and opportunities provided have been invaluable in shaping my path as a developer.
-                </p>
-                <p style="font-size: 1.2rem; margin-top: 25px; font-style: italic; color: #4ecdc4;">
-                    "Every expert was once a beginner. Every pro was once an amateur. Every icon was once an unknown." - Ghana Code Club continues to nurture beginners into the tech leaders of tomorrow.
-                </p>
-                <div style="margin-top: 30px; padding: 20px; background: rgba(78, 205, 196, 0.2); border-radius: 15px;">
-                    <strong>Thank you for believing in the power of code to transform lives and communities. 🙏</strong>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <script>
-        // Create animated particles
-        function createParticles() {
-            const particlesContainer = document.getElementById('particles');
-            const particleCount = 50;
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
             
-            for (let i = 0; i < particleCount; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.top = Math.random() * 100 + '%';
-                particle.style.animationDelay = Math.random() * 6 + 's';
-                particle.style.animationDuration = (Math.random() * 3 + 3) + 's';
-                particlesContainer.appendChild(particle);
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .cards-grid-2,
+            .cards-grid-3,
+            .cards-grid-4 {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .map-legend {
+                justify-content: center;
             }
         }
 
-        // Smooth scrolling for navigation links
-        document.querySelectorAll('nav a').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const targetId = this.getAttribute('href');
-                const targetSection = document.querySelector(targetId);
-                targetSection.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            });
-        });
+        /* Utility Classes */
+        .text-center { text-align: center; }
+        .mb-4 { margin-bottom: 1rem; }
+        .mb-6 { margin-bottom: 1.5rem; }
+        .mt-4 { margin-top: 1rem; }
+        .mt-6 { margin-top: 1.5rem; }
+        .hidden { display: none; }
+        .flex { display: flex; }
+        .items-center { align-items: center; }
+        .justify-center { justify-content: center; }
+        .gap-2 { gap: 0.5rem; }
+        .gap-4 { gap: 1rem; }
+        .w-full { width: 100%; }
+    </style>
+</head>
+<body>
+    <header id="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-section">
+                    <div class="logo-icon">🌱</div>
+                    <div class="logo-text">
+                        <h1>Eco-Eye</h1>
+                        <p>Environmental Protection Platform</p>
+                    </div>
+                </div>
+                <nav>
+                    <ul>
+                        <li><button class="nav-btn" onclick="scrollToSection('home')" data-section="home">🏠 Home</button></li>
+                        <li><button class="nav-btn" onclick="scrollToSection('report')" data-section="report">⚠️ Report</button></li>
+                        <li><button class="nav-btn" onclick="scrollToSection('data')" data-section="data">📊 Data</button></li>
+                        <li><button class="nav-btn" onclick="scrollToSection('map')" data-section="map">🗺️ Map</button></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
 
-        // Add scroll animations
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
+    <main>
+        <!-- Hero Section -->
+        <section id="home" class="hero">
+            <div class="hero-bg">
+                <img src="../src/assets/ghana-hero.jpg" alt="Beautiful Ghana landscape" />
+                <div class="hero-overlay"></div>
+            </div>
+            <div class="container">
+                <div class="hero-content fade-in-up">
+                    <h1>
+                        <span class="gradient-text">Protect Ghana's</span><br>
+                        Environment
+                    </h1>
+                    <p>
+                        Join the fight against illegal mining (Galamsey). Report environmental damage, 
+                        track pollution data, and help preserve Ghana's natural resources for future generations.
+                    </p>
+                    <div class="hero-buttons">
+                        <button class="btn btn-primary" onclick="scrollToSection('report')">
+                            🛡️ Report Illegal Mining
+                        </button>
+                        <button class="btn btn-glass" onclick="scrollToSection('data')">
+                            🎯 View Impact Data
+                        </button>
+                    </div>
+                    
+                    <!-- Stats Grid -->
+                    <div class="stats-grid">
+                        <div class="stat-card glass-card">
+                            <div class="stat-icon" style="background: var(--gradient-danger);">⚠️</div>
+                            <div class="stat-number" style="color: var(--danger-red);">2,500+</div>
+                            <div class="stat-label">Polluted Water Bodies</div>
+                        </div>
+                        <div class="stat-card glass-card">
+                            <div class="stat-icon" style="background: var(--gradient-earth);">🎯</div>
+                            <div class="stat-number" style="color: var(--warning-yellow);">15,000+</div>
+                            <div class="stat-label">Hectares Destroyed</div>
+                        </div>
+                        <div class="stat-card glass-card">
+                            <div class="stat-icon" style="background: var(--gradient-forest);">👥</div>
+                            <div class="stat-number" style="color: var(--forest-green);">50,000+</div>
+                            <div class="stat-label">People Affected</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center bounce" style="position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);">
+                    ⬇️
+                </div>
+            </div>
+        </section>
+
+        <!-- Introduction Section -->
+        <section id="intro" class="section">
+            <div class="container">
+                <h2 class="section-title">
+                    <span class="gradient-text">Why Eco-Eye Matters</span>
+                </h2>
+                <p class="section-subtitle">
+                    Illegal mining (Galamsey) is destroying Ghana's environment at an alarming rate. 
+                    Our platform empowers communities to document, report, and track environmental damage 
+                    while coordinating efforts to protect our natural resources.
+                </p>
+
+                <!-- Environmental Impact Evidence -->
+                <div class="mb-6">
+                    <h3 class="text-center" style="font-size: 2rem; margin-bottom: 40px;">Environmental Impact Evidence</h3>
+                    <div class="cards-grid cards-grid-3">
+                        <div class="card glass-card">
+                            <img src="../src/assets/polluted-river.jpg" alt="Water Pollution" class="impact-image">
+                            <h4 class="card-title">Water Pollution</h4>
+                            <span class="severity-badge severity-critical">Critical Impact</span>
+                            <p class="card-text mt-4">Rivers contaminated with mercury and heavy metals from illegal mining operations.</p>
+                        </div>
+                        <div class="card glass-card">
+                            <img src="../src/assets/illegal-mining-1.jpg" alt="Land Destruction" class="impact-image">
+                            <h4 class="card-title">Land Destruction</h4>
+                            <span class="severity-badge severity-severe">Severe Impact</span>
+                            <p class="card-text mt-4">Large excavation pits and complete destruction of agricultural land.</p>
+                        </div>
+                        <div class="card glass-card">
+                            <img src="../src/assets/illegal-mining-2.jpg" alt="Deforestation" class="impact-image">
+                            <h4 class="card-title">Deforestation</h4>
+                            <span class="severity-badge severity-high">High Impact</span>
+                            <p class="card-text mt-4">Ancient forests cleared for mining, destroying wildlife habitats.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- How It Works -->
+                <div class="mb-6">
+                    <h3 class="text-center" style="font-size: 2rem; margin-bottom: 40px;">How Our Platform Works</h3>
+                    <div class="cards-grid cards-grid-4">
+                        <div class="card glass-card text-center">
+                            <div class="stat-icon" style="background: var(--gradient-danger); margin-bottom: 20px;">📷</div>
+                            <h4 class="card-title">1. Document & Report</h4>
+                            <p class="card-text">Take photos and document illegal mining activities in your area. Upload evidence with location details.</p>
+                        </div>
+                        <div class="card glass-card text-center">
+                            <div class="stat-icon" style="background: var(--gradient-water); margin-bottom: 20px;">📍</div>
+                            <h4 class="card-title">2. Location Mapping</h4>
+                            <p class="card-text">Reports are automatically mapped to show affected areas across Ghana with real-time updates.</p>
+                        </div>
+                        <div class="card glass-card text-center">
+                            <div class="stat-icon" style="background: var(--gradient-earth); margin-bottom: 20px;">📊</div>
+                            <h4 class="card-title">3. Data Analysis</h4>
+                            <p class="card-text">Track environmental impact through charts showing water quality, deforestation, and pollution levels.</p>
+                        </div>
+                        <div class="card glass-card text-center">
+                            <div class="stat-icon" style="background: var(--gradient-forest); margin-bottom: 20px;">👥</div>
+                            <h4 class="card-title">4. Community Action</h4>
+                            <p class="card-text">Connect with local authorities and environmental groups to take collective action against galamsey.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center">
+                    <button class="btn btn-primary" onclick="scrollToSection('report')">
+                        📷 Start Reporting Now
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Reporting Section -->
+        <section id="report" class="section">
+            <div class="container">
+                <h2 class="section-title">
+                    <span style="background: var(--gradient-danger); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Report Environmental Damage</span>
+                </h2>
+                <p class="section-subtitle">
+                    Help us document illegal mining activities. Your reports contribute to a safer, cleaner Ghana.
+                </p>
+
+                <div class="cards-grid cards-grid-2">
+                    <!-- Report Form -->
+                    <div class="card glass-card">
+                        <h3 style="display: flex; align-items: center; gap: 12px; margin-bottom: 30px;">
+                            <span style="font-size: 1.5rem;">📷</span>
+                            Submit New Report
+                        </h3>
+                        
+                        <div class="success-message" id="successMessage">
+                            ✅ Report submitted successfully! Thank you for helping protect our environment.
+                        </div>
+                        
+                        <form id="reportForm">
+                            <div class="form-group">
+                                <label class="form-label">📍 Location *</label>
+                                <input type="text" class="form-input" id="location" placeholder="Enter specific location of illegal mining activity" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Pollution Type *</label>
+                                <select class="form-select" id="pollutionType" required>
+                                    <option value="">Select pollution type</option>
+                                    <option value="water-pollution">Water Pollution</option>
+                                    <option value="land-destruction">Land Destruction</option>
+                                    <option value="deforestation">Deforestation</option>
+                                    <option value="air-pollution">Air Pollution</option>
+                                    <option value="noise-pollution">Noise Pollution</option>
+                                    <option value="multiple-types">Multiple Types</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">📤 Photo Evidence</label>
+                                <input type="file" class="form-input" id="photo" accept="image/*">
+                                <p style="font-size: 12px; color: var(--text-muted); margin-top: 5px;">
+                                    Supported formats: JPG, PNG, GIF
+                                </p>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Additional Details</label>
+                                <textarea class="form-textarea" id="notes" rows="4" placeholder="Provide additional information about the illegal mining activity..."></textarea>
+                            </div>
+
+                            <button type="submit" class="btn btn-danger w-full">Submit Report</button>
+                        </form>
+                    </div>
+
+                    <!-- Recent Reports -->
+                    <div>
+                        <h3 style="margin-bottom: 30px;">Recent Community Reports</h3>
+                        <div class="reports-container" id="reportsContainer">
+                            <!-- Reports will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Data Charts Section -->
+        <section id="data" class="section">
+            <div class="container">
+                <h2 class="section-title">
+                    <span style="background: linear-gradient(45deg, var(--warning-yellow), var(--earth-brown)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                        Environmental Impact Data
+                    </span>
+                </h2>
+                <p class="section-subtitle">
+                    Real-time data and analytics showing the devastating impact of illegal mining on Ghana's environment
+                </p>
+
+                <!-- Key Statistics -->
+                <div class="stats-grid" style="margin-bottom: 60px;">
+                    <div class="stat-card glass-card">
+                        <div class="stat-icon" style="background: var(--gradient-water);">💧</div>
+                        <div class="stat-number" style="color: var(--danger-red);">3.9 pH</div>
+                        <div class="stat-label">Average Water pH</div>
+                        <div style="font-size: 12px; color: var(--danger-red); margin-top: 5px;">Critically Acidic</div>
+                    </div>
+                    <div class="stat-card glass-card">
+                        <div class="stat-icon" style="background: var(--gradient-forest);">🌲</div>
+                        <div class="stat-number" style="color: var(--warning-yellow);">65%</div>
+                        <div class="stat-label">Forest Loss</div>
+                        <div style="font-size: 12px; color: var(--warning-yellow); margin-top: 5px;">Since 2018</div>
+                    </div>
+                    <div class="stat-card glass-card">
+                        <div class="stat-icon" style="background: var(--gradient-earth);">⛰️</div>
+                        <div class="stat-number" style="color: var(--earth-brown);">4,120</div>
+                        <div class="stat-label">Polluted Areas</div>
+                        <div style="font-size: 12px; color: var(--earth-brown); margin-top: 5px;">Hectares</div>
+                    </div>
+                    <div class="stat-card glass-card">
+                        <div class="stat-icon" style="background: var(--gradient-danger);">📉</div>
+                        <div class="stat-number" style="color: var(--forest-green);">260</div>
+                        <div class="stat-label">Recovery Projects</div>
+                        <div style="font-size: 12px; color: var(--forest-green); margin-top: 5px;">Ongoing</div>
+                    </div>
+                </div>
+
+                <!-- Charts Grid -->
+                <div class="cards-grid cards-grid-2">
+                    <!-- Water Quality Chart -->
+                    <div class="card glass-card">
+                        <h3 style="display: flex; align-items: center; gap: 12px; margin-bottom: 20px;">
+                            💧 Water Quality Deterioration
+                        </h3>
+                        <div class="chart-container chart-small">
+                            <canvas id="waterQualityChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Forest Cover Chart -->
+                    <div class="card glass-card">
+                        <h3 style="display: flex; align-items: center; gap: 12px; margin-bottom: 20px;">
+                            🌲 Forest Cover Loss
+                        </h3>
+                        <div class="chart-container chart-small">
+                            <canvas id="forestCoverChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Regional Reports Chart -->
+                    <div class="card glass-card">
+                        <h3 style="margin-bottom: 20px;">Reports by Region (2024)<h3>
+                        <div class="chart-container chart-small">
+                            <canvas id="regionalReportsChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Mineral Depletion Chart -->
+                    <div class="card glass-card">
+                        <h3 style="margin-bottom: 20px;">Remaining Mineral Reserves</h3>
+                        <div class="chart-container chart-small">
+                            <canvas id="mineralDepletionChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Environmental Recovery Chart -->
+                <div class="card glass-card" style="margin-top: 30px;">
+                    <h3 style="margin-bottom: 20px;">Environmental Recovery vs New Damage</h3>
+                    <div class="chart-container">
+                        <canvas id="recoveryChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Critical Insights -->
+                <div class="card" style="background: linear-gradient(45deg, rgba(239, 68, 68, 0.2), rgba(245, 158, 11, 0.2)); margin-top: 60px; border-radius: 30px; padding: 40px;">
+                    <h3 class="text-center" style="margin-bottom: 40px;">Critical Insights from the Data</h3>
+                    <div class="stats-grid">
+                        <div class="text-center">
+                            <div style="font-size: 3rem; font-weight: bold; color: var(--danger-red); margin-bottom: 10px;">400%</div>
+                            <p style="color: var(--text-secondary);">Increase in mercury levels since January</p>
+                        </div>
+                        <div class="text-center">
+                            <div style="font-size: 3rem; font-weight: bold; color: var(--warning-yellow); margin-bottom: 10px;">65%</div>
+                            <p style="color: var(--text-secondary);">Forest cover lost in mining regions</p>
+                        </div>
+                        <div class="text-center">
+                            <div style="font-size: 3rem; font-weight: bold; color: var(--earth-brown); margin-bottom: 10px;">16:1</div>
+                            <p style="color: var(--text-secondary);">Ratio of damage to recovery efforts</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Ghana Map Section -->
+        <section id="map" class="section">
+            <div class="container">
+                <h2 class="section-title">
+                    <span class="gradient-text">Ghana Pollution Hotspots</span>
+                </h2>
+                <p class="section-subtitle">
+                    Interactive map showing regions most affected by illegal mining activities
+                </p>
+
+                <div class="cards-grid cards-grid-2" style="grid-template-columns: 2fr 1fr;">
+                    <!-- Map Visualization -->
+                    <div class="card glass-card">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                            <h3>Regional Pollution Map</h3>
+                            <div class="map-legend">
+                                <div class="legend-item">
+                                    <div class="legend-color" style="background: var(--gradient-danger);"></div>
+                                    <span>Critical</span>
+                                </div>
+                                <div class="legend-item">
+                                    <div class="legend-color" style="background: var(--gradient-earth);"></div>
+                                    <span>High</span>
+                                </div>
+                                <div class="legend-item">
+                                    <div class="legend-color" style="background: var(--gradient-water);"></div>
+                                    <span>Medium</span>
+                                </div>
+                                <div class="legend-item">
+                                    <div class="legend-color" style="background: var(--gradient-forest);"></div>
+                                    <span>Low</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="map-container">
+                            <svg viewBox="0 0 400 300" class="ghana-map" id="ghanaMapSvg">
+                                <!-- Ghana outline -->
+                                <path d="M 50 50 L 350 50 L 350 80 L 320 100 L 340 130 L 350 160 L 320 180 L 300 200 L 280 250 L 200 270 L 150 250 L 100 220 L 80 180 L 60 150 L 50 120 Z"
+                                      fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.3)" stroke-width="2"/>
+                                <!-- Region markers will be added by JavaScript -->
+                            </svg>
+                            <div style="position: absolute; bottom: 10px; left: 10px; font-size: 12px; color: var(--text-muted);">
+                                Click on a region to view details
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Region Details -->
+                    <div>
+                        <div class="card glass-card" id="regionDetailsCard">
+                            <div class="text-center" style="padding: 40px;">
+                                <div style="font-size: 3rem; margin-bottom: 20px;">📍</div>
+                                <p style="color: var(--text-muted);">
+                                    Select a region on the map to view detailed information
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Regional Statistics -->
+                        <div class="card glass-card" style="margin-top: 20px;">
+                            <h3 style="margin-bottom: 20px;">Top Affected Regions</h3>
+                            <div id="regionalStatsContainer">
+                                <!-- Will be populated by JavaScript -->
+                            </div>
+                        </div>
+
+                        <!-- Action Items -->
+                        <div class="card glass-card" style="margin-top: 20px;">
+                            <h3 style="display: flex; align-items: center; gap: 12px; margin-bottom: 20px;">
+                                ⚠️ Take Action
+                            </h3>
+                            <div style="display: flex; flex-direction: column; gap: 10px;">
+                                <button class="btn btn-danger" style="width: 100%; justify-content: flex-start;" onclick="scrollToSection('report')">
+                                    📷 Report New Activity
+                                </button>
+                                <button class="btn btn-glass" style="width: 100%; justify-content: flex-start;">
+                                    💧 Test Water Quality
+                                </button>
+                                <button class="btn btn-glass" style="width: 100%; justify-content: flex-start;">
+                                    🌲 Forest Recovery Program
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="glass" style="padding: 60px 0; margin-top: 80px;">
+        <div class="container">
+            <div class="text-center">
+                <h3 class="gradient-text" style="font-size: 2rem; margin-bottom: 20px;">Eco-Eye<h>
+                <p style="color: var(--text-secondary); margin-bottom: 30px;">
+                    Together, we can protect Ghana's environment for future generations.
+                </p>
+                <div style="display: flex; justify-content: center; gap: 40px; font-size: 14px; color: var(--text-muted);">
+                    <span>© 2025 Eco-Eye</span>
+                    <span>Environmental Protection Platform</span>
+                    <span>Made with 💚 for Ghana</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Sample data for reports
+        let reports = [
+            {
+                id: 1,
+                location: "Obuasi, Ashanti Region",
+                pollutionType: "water-pollution", 
+                notes: "River contaminated with mercury from illegal mining operations. Fish dying in large numbers.",
+                date: new Date('2025-9-15'),
+                status: 'verified'
+            },
+            {
+                id: 2,
+                location: "Tarkwa, Western Region",
+                pollutionType: "land-destruction",
+                notes: "Large excavation pits left unfilled. Farmland completely destroyed, affecting local agriculture.",
+                date: new Date('2025-09-18'),
+                status: 'investigating'
+            },
+            {
+                id: 3,
+                location: "Dunkwa, Central Region",
+                pollutionType: "deforestation",
+                notes: "Ancient forest cleared for mining. Endangered species habitat destroyed.",
+                date: new Date('2025-09-20'),
+                status: 'pending'
+            }
+        ];
+
+        // Ghana regions data
+        const ghanaRegions = [
+            {
+                name: "Ashanti Region",
+                coordinates: { lat: 6.7, lng: -1.6 },
+                pollutionLevel: "Critical",
+                reports: 485,
+                mainIssues: ["Water Pollution", "Deforestation"],
+                color: "#ef4444",
+                image: "../src/assets/illegal-mining-1.jpg"
+            },
+            {
+                name: "Western Region", 
+                coordinates: { lat: 5.5, lng: -2.5 },
+                pollutionLevel: "Critical",
+                reports: 412,
+                mainIssues: ["Land Destruction", "Mercury Contamination"],
+                color: "#dc2626",
+                image: "../src/assets/polluted-river.jpg"
+            },
+            {
+                name: "Central Region",
+                coordinates: { lat: 5.5, lng: -1.0 },
+                pollutionLevel: "High",
+                reports: 298,
+                mainIssues: ["Coastal Pollution", "Sand Mining"],
+                color: "#f97316",
+                image: "../src/assets/illegal-mining-2.jpg"
+            },
+            {
+                name: "Eastern Region",
+                coordinates: { lat: 6.5, lng: -0.5 },
+                pollutionLevel: "Medium",
+                reports: 234,
+                mainIssues: ["Forest Degradation"],
+                color: "#f59e0b"
+            },
+            {
+                name: "Brong Ahafo Region",
+                coordinates: { lat: 7.7, lng: -2.0 },
+                pollutionLevel: "Medium", 
+                reports: 187,
+                mainIssues: ["Small Scale Mining"],
+                color: "#eab308"
+            },
+            {
+                name: "Northern Region",
+                coordinates: { lat: 9.5, lng: -1.0 },
+                pollutionLevel: "Low",
+                reports: 98,
+                mainIssues: ["Minimal Activity"],
+                color: "#22c55e"
+            }
+        ];
+
+        // Pollution type names
+        const pollutionTypes = {
+            'water-pollution': 'Water Pollution',
+            'land-destruction': 'Land Destruction',
+            'deforestation': 'Deforestation',
+            'air-pollution': 'Air Pollution',
+            'noise-pollution': 'Noise Pollution',
+            'multiple-types': 'Multiple Types',
+            'other': 'Other'
         };
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
+        // Navigation functionality
+        function scrollToSection(sectionId) {
+            const element = document.getElementById(sectionId);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+            
+            // Update active nav button
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.dataset.section === sectionId) {
+                    btn.classList.add('active');
                 }
             });
-        }, observerOptions);
+        }
 
-        // Observe all cards and sections
-        document.querySelectorAll('.card, .project-card').forEach(card => {
-            card.style.opacity = '0';
-            card.style.transform = 'translateY(30px)';
-            card.style.transition = 'all 0.6s ease';
-            observer.observe(card);
+        // Header scroll effect
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
         });
 
-        // Initialize particles when page loads
-        window.addEventListener('load', createParticles);
+        // Report form submission
+        document.getElementById('reportForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = {
+                location: document.getElementById('location').value,
+                pollutionType: document.getElementById('pollutionType').value,
+                notes: document.getElementById('notes').value,
+                photo: document.getElementById('photo').files[0]
+            };
+            
+            if (!formData.location || !formData.pollutionType) {
+                alert('Please fill in all required fields.');
+                return;
+            }
 
-        // Add floating effect to skill tags
-        document.querySelectorAll('.skill-tag').forEach((tag, index) => {
-            tag.style.animationDelay = (index * 0.1) + 's';
-            tag.style.animation = 'float 3s ease-in-out infinite';
+            const newReport = {
+                id: Date.now(),
+                location: formData.location,
+                pollutionType: formData.pollutionType,
+                notes: formData.notes,
+                date: new Date(),
+                status: 'pending'
+            };
+
+            reports.unshift(newReport);
+            displayReports();
+            
+            // Show success message
+            const successMessage = document.getElementById('successMessage');
+            successMessage.style.display = 'block';
+            setTimeout(() => {
+                successMessage.style.display = 'none';
+            }, 5000);
+            
+            // Reset form
+            this.reset();
+        });
+
+        // Display reports
+        function displayReports() {
+            const container = document.getElementById('reportsContainer');
+            container.innerHTML = '';
+            
+            reports.forEach(report => {
+                const reportElement = document.createElement('div');
+                reportElement.className = 'report-item';
+                
+                const statusClass = `status-${report.status}`;
+                const statusIcon = report.status === 'verified' ? '✅' : 
+                                  report.status === 'investigating' ? '🔍' : '⏳';
+                
+                reportElement.innerHTML = `
+                    <div class="report-header">
+                        <div class="report-location">${report.location}</div>
+                        <div class="report-date">${report.date.toLocaleDateString()}</div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                        <div class="report-type" style="background: var(--gradient-earth);">
+                            ${pollutionTypes[report.pollutionType]}
+                        </div>
+                        <div class="status-badge ${statusClass}">
+                            ${statusIcon} ${report.status}
+                        </div>
+                    </div>
+                    <div style="color: var(--text-secondary);">${report.notes}</div>
+                `;
+                
+                container.appendChild(reportElement);
+            });
+        }
+
+        // Initialize charts
+        function initializeCharts() {
+            // Water Quality Chart
+            const waterCtx = document.getElementById('waterQualityChart').getContext('2d');
+            new Chart(waterCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
+                    datasets: [{
+                        label: 'Water pH Level',
+                        data: [7.2, 6.8, 6.4, 5.9, 5.2, 4.8, 4.3, 4.1, 3.9],
+                        borderColor: '#0ea5e9',
+                        backgroundColor: 'rgba(14, 165, 233, 0.1)',
+                        tension: 0.4
+                    }, {
+                        label: 'Mercury (ppm)',
+                        data: [0.8, 1.2, 1.8, 2.4, 3.1, 3.8, 4.2, 4.8, 5.1],
+                        borderColor: '#ef4444',
+                        backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                        tension: 0.4
+                    }, {
+                        label: 'Safe Level',
+                        data: [6.5, 6.5, 6.5, 6.5, 6.5, 6.5, 6.5, 6.5, 6.5],
+                        borderColor: '#22c55e',
+                        borderDash: [5, 5],
+                        tension: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            labels: { color: '#f0f4f3' }
+                        }
+                    },
+                    scales: {
+                        x: { ticks: { color: '#b8c4c2' }, grid: { color: '#374151' } },
+                        y: { ticks: { color: '#b8c4c2' }, grid: { color: '#374151' } }
+                    }
+                }
+            });
+
+            // Forest Cover Chart
+            const forestCtx = document.getElementById('forestCoverChart').getContext('2d');
+            new Chart(forestCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['2018', '2019', '2020', '2021', '2022', '2023', '2024','2025'],
+                    datasets: [{
+                        label: 'Forest Cover %',
+                        data: [85, 78, 71, 63, 54, 44, 35],
+                        backgroundColor: '#22c55e'
+                    }, {
+                        label: 'Destroyed %',
+                        data: [15, 22, 29, 37, 46, 56, 65],
+                        backgroundColor: '#ef4444'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: { 
+                            stacked: true,
+                            ticks: { color: '#b8c4c2' }, 
+                            grid: { color: '#374151' } 
+                        },
+                        y: { 
+                            stacked: true,
+                            ticks: { color: '#b8c4c2' }, 
+                            grid: { color: '#374151' } 
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            labels: { color: '#f0f4f3' }
+                        }
+                    }
+                }
+            });
+
+            // Regional Reports Chart
+            const regionalCtx = document.getElementById('regionalReportsChart').getContext('2d');
+            new Chart(regionalCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Ashanti', 'Western', 'Central', 'Eastern', 'Brong Ahafo', 'Northern'],
+                    datasets: [{
+                        label: 'Reports',
+                        data: [485, 412, 298, 234, 187, 98],
+                        backgroundColor: '#f97316'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            labels: { color: '#f0f4f3' }
+                        }
+                    },
+                    scales: {
+                        x: { ticks: { color: '#b8c4c2' }, grid: { color: '#374151' } },
+                        y: { ticks: { color: '#b8c4c2' }, grid: { color: '#374151' } }
+                    }
+                }
+            });
+
+            // Mineral Depletion Chart
+            const mineralCtx = document.getElementById('mineralDepletionChart').getContext('2d');
+            new Chart(mineralCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Gold Reserves', 'Bauxite', 'Manganese', 'Diamond', 'Iron Ore', 'Others'],
+                    datasets: [{
+                        data: [15, 23, 31, 8, 18, 5],
+                        backgroundColor: ['#FFD700', '#CD853F', '#708090', '#B9F2FF', '#A0522D', '#696969']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            labels: { color: '#f0f4f3' }
+                        }
+                    }
+                }
+            });
+
+            // Recovery Chart
+            const recoveryCtx = document.getElementById('recoveryChart').getContext('2d');
+            new Chart(recoveryCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
+                    datasets: [{
+                        label: 'Polluted Areas (Hectares)',
+                        data: [2450, 2520, 2680, 2890, 3120, 3380, 3650, 3890, 4120],
+                        borderColor: '#ef4444',
+                        backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                        tension: 0.4
+                    }, {
+                        label: 'Recovered Areas (Hectares)',
+                        data: [120, 145, 165, 180, 195, 210, 225, 245, 260],
+                        borderColor: '#22c55e',
+                        backgroundColor: 'rgba(34, 197, 94, 0.1)',
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            labels: { color: '#f0f4f3' }
+                        }
+                    },
+                    scales: {
+                        x: { ticks: { color: '#b8c4c2' }, grid: { color: '#374151' } },
+                        y: { ticks: { color: '#b8c4c2' }, grid: { color: '#374151' } }
+                    }
+                }
+            });
+        }
+
+        // Initialize Ghana map
+        function initializeGhanaMap() {
+            const svg = document.getElementById('ghanaMapSvg');
+            
+            // Add region markers
+            ghanaRegions.forEach((region, index) => {
+                const x = (region.coordinates.lng + 3) * 60 + 50;
+                const y = (10 - region.coordinates.lat) * 25 + 20;
+                const radius = Math.sqrt(region.reports) / 4 + 8;
+                
+                // Create marker group
+                const group = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+                group.classList.add('region-marker');
+                group.style.cursor = 'pointer';
+                
+                // Outer circle
+                const outerCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                outerCircle.setAttribute('cx', x);
+                outerCircle.setAttribute('cy', y);
+                outerCircle.setAttribute('r', radius);
+                outerCircle.setAttribute('fill', region.color);
+                outerCircle.setAttribute('opacity', '0.7');
+                
+                // Inner circle
+                const innerCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                innerCircle.setAttribute('cx', x);
+                innerCircle.setAttribute('cy', y);
+                innerCircle.setAttribute('r', '4');
+                innerCircle.setAttribute('fill', 'white');
+                
+                group.appendChild(outerCircle);
+                group.appendChild(innerCircle);
+                
+                // Click handler
+                group.addEventListener('click', () => selectRegion(region));
+                
+                svg.appendChild(group);
+            });
+            
+            // Populate regional stats
+            const statsContainer = document.getElementById('regionalStatsContainer');
+            const topRegions = [...ghanaRegions].sort((a, b) => b.reports - a.reports).slice(0, 5);
+            
+            topRegions.forEach(region => {
+                const statElement = document.createElement('div');
+                statElement.style.cssText = `
+                    display: flex; 
+                    justify-content: space-between; 
+                    align-items: center; 
+                    padding: 12px; 
+                    margin-bottom: 8px; 
+                    border-radius: 8px; 
+                    background: rgba(255,255,255,0.05); 
+                    cursor: pointer; 
+                    transition: all 0.3s ease;
+                `;
+                
+                statElement.innerHTML = `
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <div style="width: 12px; height: 12px; border-radius: 50%; background: ${region.color};"></div>
+                        <span style="font-size: 14px; font-weight: 500;">${region.name}</span>
+                    </div>
+                    <div style="text-align: right;">
+                        <div style="font-size: 14px; font-weight: bold;">${region.reports}</div>
+                        <div style="font-size: 11px; color: var(--text-muted);">reports</div>
+                    </div>
+                `;
+                
+                statElement.addEventListener('click', () => selectRegion(region));
+                statElement.addEventListener('mouseenter', () => {
+                    statElement.style.background = 'rgba(255,255,255,0.1)';
+                });
+                statElement.addEventListener('mouseleave', () => {
+                    statElement.style.background = 'rgba(255,255,255,0.05)';
+                });
+                
+                statsContainer.appendChild(statElement);
+            });
+        }
+
+        // Select region function
+        function selectRegion(region) {
+            const detailsCard = document.getElementById('regionDetailsCard');
+            
+            const severityClass = region.pollutionLevel === 'Critical' ? 'severity-critical' :
+                                  region.pollutionLevel === 'High' ? 'severity-high' :
+                                  region.pollutionLevel === 'Medium' ? 'severity-badge' : 'severity-badge';
+            
+            detailsCard.innerHTML = `
+                <div class="region-details">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                        <h3>${region.name}</h3>
+                        <span class="severity-badge ${severityClass}">${region.pollutionLevel}</span>
+                    </div>
+                    
+                    ${region.image ? `<img src="${region.image}" alt="Environmental damage in ${region.name}" class="region-image">` : ''}
+                    
+                    <div style="margin-bottom: 15px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                            <span style="color: var(--text-muted);">Total Reports</span>
+                            <span style="font-weight: bold; color: var(--danger-red);">${region.reports}</span>
+                        </div>
+                        
+                        <div>
+                            <span style="color: var(--text-muted); display: block; margin-bottom: 8px;">Main Issues</span>
+                            <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                                ${region.mainIssues.map(issue => 
+                                    `<span style="padding: 4px 8px; background: rgba(255,255,255,0.1); border-radius: 12px; font-size: 11px;">${issue}</span>`
+                                ).join('')}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Initialize everything when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            displayReports();
+            initializeCharts();
+            initializeGhanaMap();
         });
     </script>
 </body>
